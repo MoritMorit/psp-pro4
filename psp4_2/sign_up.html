@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>ぷろふ</title>
+ </head>
+ <body>
+  <div style="width: 320px; height: 704px; position: relative; background: white">
+    <div style="width: 198px; height: 68px; left: 59px; top: 32px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">キズナアカウント<br/>お持ちの方</div>
+    <div style="width: 198px; height: 68px; left: 61px; top: 380px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">キズナアカウント<br/>お持ちでない方</div>
+    <div style="height: 63px; left: 42px; top: 100px; position: absolute">
+      <input type="text" id="user_name" style="display:block; width: 235px; height: 39px; left: 0px; top: 24px; position: absolute; background: #D9D9D9"></input>
+      <div style="width: 59px; height: 17px; left: 0px; top: 0px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">ユーザ名</div>
+    </div>
+    <div style="width: 235px; height: 61px; left: 42px; top: 174px; position: absolute">
+      <input type="text" id="passwd" style="width: 235px; height: 39px; left: 0px; top: 22px; position: absolute; background: #D9D9D9"></input>
+      <div style="width: 98px; height: 16px; left: 4px; top: 0px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">パスワード</div>
+    </div>
+    <div id="login" style="width: 118px; height: 52px; left: 101px; top: 254px; position: absolute">
+      <div style="width: 118px; height: 52px; left: 0px; top: 0px; position: absolute; background: #D9D9D9"></div>
+      <div style="width: 111px; height: 25px; left: 7px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">let’s キズナ</div>
+    </div>
+    <div style="height: 63px; left: 44px; top: 435px; position: absolute">
+      <input type="text" id="new_user" style="width: 235px; height: 39px; left: 0px; top: 24px; position: absolute; background: #D9D9D9"></input>
+      <div style="width: 59px; height: 17px; left: 0px; top: 0px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">ユーザ名</div>
+    </div>
+    <div style="width: 235px; height: 61px; left: 42px; top: 506px; position: absolute">
+      <input type="text" id="new_pass" style="width: 235px; height: 39px; left: 0px; top: 22px; position: absolute; background: #D9D9D9"></input>
+      <div style="width: 98px; height: 16px; left: 4px; top: 0px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">パスワード</div>
+    </div>
+    <div id="sign_up" style="width: 118px; height: 52px; left: 103px; top: 587px; position: absolute">
+      <div style="width: 118px; height: 52px; left: 0px; top: 0px; position: absolute; background: #D9D9D9"></div>
+      <div style="width: 75px; height: 25px; left: 23px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">sign up</div>
+    </div>
+  </div>
+
+
+  <script>
+     user_list = {};
+     user_list["tama"] = "chi-";
+    //localStorage['tama'] = "chi-"
+
+
+    //login
+    
+    function login() {
+        user_name = document.getElementById("user_name").value; //仮
+        passwd = document.getElementById("passwd").value;
+        
+        json = JSON.parse(window.localStorage.getItem(user_name));//getしたuser_nameがkeyになっているjsonを探索
+
+        if( json == null ) {
+          alert("BOOOOO!!")
+        }
+        else if( json.passwd == passwd   ) { // 存在　かつ　passwdが一致
+            alert(" ログインしました ")
+            location.href = "start.php?user="+user_name; //URLの取得、画面遷移 with user情報
+        }
+        else
+           alert("BOOOOO!!")
+         
+    }
+
+    var pbn = 0;
+
+
+
+    //sign up
+    pbn=10000;
+
+    function sign_up() {
+        
+
+        new_user = document.getElementById("new_user").value;
+        new_pass = document.getElementById("new_pass").value;
+
+        
+        if( window.localStorage[new_user] != undefined ){ //定義されている時
+            alert(" already exist");
+        }else{
+          alert("Please remember.")
+
+        
+          // pbn = int(Math.random() * 99999999); //user_id的な
+          let data = {
+            'pbn':pbn, // Profile Book Number
+            'passwd': new_pass
+          };
+          let val = JSON.stringify(data);
+          window.localStorage.setItem(new_user, val); //key=user_name, val=data
+
+          //alert("Please remember.")
+
+          
+
+          location.href = "start.php?user="+new_user;
+        }
+
+        
+    }
+
+
+    logint_button = document.getElementById("login");
+    logint_button.onclick = login;
+
+    sign_up_button = document.getElementById("sign_up");
+    sign_up_button.onclick = sign_up;
+
+
+  </script>
+
+  
+
+ </body>
+</html>
+
